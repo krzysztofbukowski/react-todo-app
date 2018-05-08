@@ -1,10 +1,18 @@
 .app {
   max-width: 500px;
-  transform: translate3d(50%, 0, 0); }
+  transform: translate3d(50%, 0, 0);
+  display: grid;
+  grid-gap: 15px;
+  grid-template-rows: auto 50px;
+  height: 100vh;
+  padding: 15px 0; }
 
 .action {
   padding: 15px;
   cursor: pointer; }
   .action--danger {
     background: #da0c0c;
+    color: white; }
+  .action--info {
+    background: darkolivegreen;
     color: white; }

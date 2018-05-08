@@ -1,35 +1,63 @@
 .todo-list {
     background: white;
+    color: #222;
     list-style-type: none;
     padding: 0;
     border: 1px solid #aaaaaa;
     display: block;
     width: 100%;
     margin: auto;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
     border-radius: 5px;
     overflow: hidden;
 
     &__item {
+        $root: &;
+
         display: flex;
         align-items: center;
 
         &-actions {
             flex-basis: 0;
+            display: flex;
+            width: 0;
+            transition: width 200ms ease-in;
+        }
+
+        &--active {
+            #{$root}-actions {
+                width: 90px;
+                transition: width 200ms ease-out;
+            }
         }
 
         & > a {
+            $speed: 300ms;
+
             background: transparent;
             padding: 15px 30px 15px 5px;
             display: block;
             cursor: pointer;
-            transition: all 100ms linear;
+            transition: all $speed linear;
             flex-grow: 1;
+            position: relative;
 
             &:hover {
-                background: #1498ed;
+                background: #768690;
                 color: white;
-                transition: all 100ms linear;
+                transition: all $speed linear;
+            }
+
+            &:after {
+                content: ' ';
+                display: block;
+                position: absolute;
+                right: 9px;
+                top: -2px;
+                height: 110%;
+                box-shadow: 14px 0 1px -2px rgba(0, 0, 0, .2);
+                z-index: 100;
+                width: 7px;
             }
         }
 
@@ -38,7 +66,11 @@
             padding: 15px 30px 15px 5px;
             display: block;
             text-align: center;
-            width: 100%;          
+            width: 100%;
         }
+    }
+
+    &__item + &__item {
+        border-top: 1px solid rgba(0, 0, 0, .3);
     }
 }

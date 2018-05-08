@@ -1,48 +1,70 @@
 import * as React from 'react';
-import { KeyboardEvent } from 'react';
 import './App.css';
-import TodoList from './components/TodoList/TodoList';
+import TodoInput from './components/TodoInput/TodoInput';
+import TodoList, { ITodo } from './components/TodoList/TodoList';
 
 interface IAppState {
-    items: string[];
+   items: ITodo[];
 }
 
 class App extends React.Component<{}, IAppState> {
-    constructor(props: {}) {
-        super(props);
+   constructor(props: {}) {
+      super(props);
 
-        this.state = {
-            items: []
-        }
-    }
+      this.state = {
+         items: []
+      };
+   }
 
-  public render() {
-    return (
-      <div className="app">
-          <TodoList items={this.state.items}/>
-          <input
-              type="text"
-              onKeyDown={this.handleKeyDown}
-              placeholder="Enter todo"
-          />
-      </div>
-    );
-  }
+   public componentDidMount() {
+      this.setState({
+         items: JSON.parse(localStorage.getItem('todo-items') as string) as ITodo[]
+      });
+   }
 
-  private handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.keyCode === 13) {
-          console.log(e.nativeEvent.target && e.nativeEvent.target.classList);
-          this.addItem("test");
-      }
-  }
+   public render() {
+      return (
+         <div className="app">
+            <TodoList
+               items={this.state.items}
+               removeTodo={this.removeTodoItem}
+            />
+            <TodoInput
+               defaultText="Enter todo"
+               onValueChange={this.addTodoItem}
+            />
+         </div>
+      );
+   }
 
-  private addItem = (text: string) => {
+   private addTodoItem = (text: string) => {
       this.setState((prevState: IAppState) => {
-         prevState.items.push(text);
+         const todoItem = {
+            id: Date.now(),
+            label: text
+         };
+
+         prevState.items.push(todoItem);
+
+         localStorage.setItem('todo-items', JSON.stringify(prevState.items));
 
          return prevState;
       });
-  }
+   };
+
+   private removeTodoItem = (todoId: number) => {
+      this.setState((prevState: IAppState) => {
+         const newState = {
+            items: prevState.items.filter(
+               (todoItem) => todoItem.id !== todoId
+            )
+         };
+
+         localStorage.setItem('todo-items', JSON.stringify(newState.items));
+
+         return newState;
+      });
+   };
 }
 
 export default App;

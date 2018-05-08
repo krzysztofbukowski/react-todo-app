@@ -1,19 +1,24 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
-  "linterOptions": {
-    "exclude": [
-      "config/**/*.js",
-      "node_modules/**/*.ts"
-    ]
-},
-"rules": {
-    "no-console": [
-        false,
-        "log",
-        "debug",
-        "time",
-        "timeEnd",
-        "trace"
-    ]
-    }
+	"extends": [
+		"tslint:recommended",
+		"tslint-react",
+		"tslint-config-prettier"
+	],
+	"linterOptions": {
+		"exclude": [
+			"config/**/*.js",
+			"node_modules/**/*.ts"
+		]
+	},
+	"rules": {
+		"no-console": [
+			false,
+			"log",
+			"debug",
+			"time",
+			"timeEnd",
+			"trace"
+		],
+		"jsx-no-lambda": false
+	}
 }
