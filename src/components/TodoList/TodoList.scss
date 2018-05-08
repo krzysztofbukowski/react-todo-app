@@ -1,0 +1,44 @@
+.todo-list {
+    background: white;
+    list-style-type: none;
+    padding: 0;
+    border: 1px solid #aaaaaa;
+    display: block;
+    width: 100%;
+    margin: auto;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    overflow: hidden;
+
+    &__item {
+        display: flex;
+        align-items: center;
+
+        &-actions {
+            flex-basis: 0;
+        }
+
+        & > a {
+            background: transparent;
+            padding: 15px 30px 15px 5px;
+            display: block;
+            cursor: pointer;
+            transition: all 100ms linear;
+            flex-grow: 1;
+
+            &:hover {
+                background: #1498ed;
+                color: white;
+                transition: all 100ms linear;
+            }
+        }
+
+        & > span {
+            background: transparent;
+            padding: 15px 30px 15px 5px;
+            display: block;
+            text-align: center;
+            width: 100%;          
+        }
+    }
+}

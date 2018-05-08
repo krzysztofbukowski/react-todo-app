@@ -1,0 +1,10 @@
+.app {
+  max-width: 500px;
+  transform: translate3d(50%, 0, 0); }
+
+.action {
+  padding: 15px;
+  cursor: pointer; }
+  .action--danger {
+    background: #da0c0c;
+    color: white; }
