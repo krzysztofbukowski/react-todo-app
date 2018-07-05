@@ -33,6 +33,7 @@ class App extends React.Component<{}, IAppState> {
                defaultText="Enter todo"
                onValueChange={this.addTodoItem}
             />
+            <div className="test"/>
          </div>
       );
    }
