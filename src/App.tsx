@@ -4,68 +4,70 @@ import TodoInput from './components/TodoInput/TodoInput';
 import TodoList, { ITodo } from './components/TodoList/TodoList';
 
 interface IAppState {
-   items: ITodo[];
+  items: ITodo[];
 }
 
 class App extends React.Component<{}, IAppState> {
-   constructor(props: {}) {
-      super(props);
+  constructor(props: {}) {
+    super(props);
 
-      this.state = {
-         items: []
+    this.state = {
+      items: []
+    };
+  }
+
+  public componentDidMount() {
+    const items = JSON.parse(localStorage.getItem('todo-items') as string) as ITodo[];
+
+    this.setState({
+      items: items || []
+    });
+  }
+
+  public render() {
+    return (
+      <div className="app">
+        <TodoList
+          items={this.state.items}
+          removeTodo={this.removeTodoItem}
+        />
+        <TodoInput
+          defaultText="Enter todo"
+          onValueChange={this.addTodoItem}
+        />
+        <div className="test" />
+      </div>
+    );
+  }
+
+  private addTodoItem = (text: string) => {
+    this.setState((prevState: IAppState) => {
+      const todoItem = {
+        id: Date.now(),
+        label: text
       };
-   }
 
-   public componentDidMount() {
-      this.setState({
-         items: JSON.parse(localStorage.getItem('todo-items') as string) as ITodo[]
-      });
-   }
+      prevState.items.push(todoItem);
 
-   public render() {
-      return (
-         <div className="app">
-            <TodoList
-               items={this.state.items}
-               removeTodo={this.removeTodoItem}
-            />
-            <TodoInput
-               defaultText="Enter todo"
-               onValueChange={this.addTodoItem}
-            />
-            <div className="test"/>
-         </div>
-      );
-   }
+      localStorage.setItem('todo-items', JSON.stringify(prevState.items));
 
-   private addTodoItem = (text: string) => {
-      this.setState((prevState: IAppState) => {
-         const todoItem = {
-            id: Date.now(),
-            label: text
-         };
+      return prevState;
+    });
+  };
 
-         prevState.items.push(todoItem);
+  private removeTodoItem = (todoId: number) => {
+    this.setState((prevState: IAppState) => {
+      const newState = {
+        items: prevState.items.filter(
+          (todoItem) => todoItem.id !== todoId
+        )
+      };
 
-         localStorage.setItem('todo-items', JSON.stringify(prevState.items));
+      localStorage.setItem('todo-items', JSON.stringify(newState.items));
 
-         return prevState;
-      });
-   };
-
-   private removeTodoItem = (todoId: number) => {
-      this.setState((prevState: IAppState) => {
-         const newState = {
-            items: prevState.items.filter(
-               (todoItem) => todoItem.id !== todoId
-            )
-         };
-
-         localStorage.setItem('todo-items', JSON.stringify(newState.items));
-
-         return newState;
-      });
-   };
+      return newState;
+    });
+  };
 }
 
 export default App;
